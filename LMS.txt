@@ -1,0 +1,245 @@
+create database lms
+
+use lms
+
+1. CREATE TABLE user_details (
+       add id int(10) primary key auto_increment,
+       email varchar(50) NOT NULL,
+       first_name varchar(100) NOT NULL,
+       last_name varchar(100) NOT NULL,
+       password varchar(15) NOT NULL,
+       contact_number bigint(20) NOT NULL,
+       verified bit(1) DEFAULT NULL,
+       creator_stamp varchar(20) not null, 
+       creator_user varchar(20) not null, 
+       PRIMARY KEY (id)
+);
+
+2.  CREATE TABLE Hired_Candidate (
+  Id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  First_name varchar(100) NOT NULL,
+  Middle_name varchar(100) DEFAULT NULL,
+  Last_name varchar(100) NOT NULL,
+  Email varchar(50) NOT NULL,
+  Mobile_num bigint(20) NOT NULL,
+  hired_city varchar(50) NOT NULL,
+  degree varchar(100) NOT NULL,
+  aggr_remark varchar(15) DEFAULT NULL,
+  permanent_pincode int(11) DEFAULT NULL,
+  hired_lab varchar(20) DEFAULT NULL,
+  attitude_remark varchar(15) DEFAULT NULL,
+  communication_remark varchar(15) DEFAULT NULL,
+  knowledge_remark varchar(15) DEFAULT NULL,
+  status varchar(20) NOT NULL,
+  creator_stamp datetime DEFAULT NULL,
+  creator_user int(11) DEFAULT NULL
+);
+
+3. CREATE TABLE Fellowship_Candidate (
+  Id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  CIC_ID int(11) NOT NULL ,
+  First_name varchar(100) NOT NULL,
+  Middle_name varchar(100) DEFAULT NULL,
+  Last_name varchar(100) NOT NULL,
+  Email varchar(50) NOT NULL,
+  Mobile_num bigint(20) NOT NULL,
+  hired_city varchar(50) NOT NULL,
+  hired_date datetime DEFAULT NULL,
+  degree varchar(100) NOT NULL,
+  aggregate_Remark varchar(100) DEFAULT NULL,
+  permanent_pincode int(11) DEFAULT NULL,
+  hired_lab varchar(20) DEFAULT NULL,
+  attitude varchar(15) DEFAULT NULL,
+  communication_Remark varchar(15) DEFAULT NULL,
+  knowledge_Remark varchar(15) DEFAULT NULL,
+  status varchar(20) NOT NULL,
+  creator_stamp datetime DEFAULT NULL,
+  creator_user int(11) DEFAULT NULL,
+  birth_date datetime NOT NULL,
+  Is_Birth_date_verified varchar(10) DEFAULT NULL,
+  Parent_name varchar(100) NOT NULL,
+  Parent_Occupation varchar(100) DEFAULT NULL,
+  Parent_Mobile_number bigint(20) NOT NULL,
+  Parent_AnnualSalary double NOT NULL,
+  local_addr varchar(255) NOT NULL,
+  permanent_addr varchar(150) DEFAULT NULL,
+  photo_path varchar(500) DEFAULT NULL,
+  joining_date date DEFAULT NULL,
+  candidate_status varchar(20) NOT NULL,
+  personal_info_filled int (3) DEFAULT 0,
+  bank_info_filled int (3) DEFAULT 0,
+  educational_info_filled int (3) DEFAULT 0,
+  doc_status varchar(20) DEFAULT NULL,
+  remark varchar(150) DEFAULT NULL
+);
+
+4. create table Candidate_Bank_Details(
+       add id int(11) primary key auto_increment,
+       Candidate_id int(11) NOT NULL,
+       Account_Number int(30) NOT NULL,
+       Is_Account_Number_Verified varchar(10),
+       IFSC_code varchar(30) NOT NULL,
+        Is_IFSC_code_Verified varchar(10),
+		PAN_Number varchar(30) NOT NULL,
+        Is_PAN_Number_Verified varchar(10),
+        Aadhar_Number varchar(30) NOT NULL,
+        Is_Aadhar_Number_Verified varchar(10),
+       creator_stamp varchar(20) not null, 
+       creator_user varchar(20) not null,
+       FOREIGN KEY (Candidate_id) REFERENCES Fellowship_Candidate(Id)
+       );
+5. create table Candidate_Qualification(
+       add id int(11) primary key auto_increment,
+       Candidate_id int(11) NOT NULL,
+       Diploma varchar(30) NOT NULL,
+       Degree_name varchar(50) NOT NULL,
+       Is_Degree_name_Verified varchar(10),
+       Employee_decipline varchar(50) NOT NULL,
+       Is_Employee_decipline_Verified varchar(10),
+       Passing_Year year NOT NULL,
+        Is_Passing_Yea_Verified varchar(10),
+		Agg_Per double NOT NULL,
+        Is_Agg_Per_Verified varchar(10),
+        Final_year_per double NOT NULL,
+        Is_Final_year_per_Verified varchar(10),
+        Training_Institute varchar(20) NOT NULL,
+        Is_Training_Institute_Verified varchar(10),
+         Training_duration_Month int(3) NOT NULL,
+        Is_Training_duration_Month_Verified varchar(10),
+         Other_Training varchar(20) NOT NULL,
+        Is_Other_Training_Verified varchar(10),
+       creator_stamp timestamp not null, 
+       creator_user int(10) not null,
+       FOREIGN KEY (Candidate_id) REFERENCES Fellowship_Candidate(Id)
+       ); 
+6. create table Candidate_Documents(
+       add id int(11) primary key auto_increment,
+       Candidate_id int(11) NOT NULL,
+       doc_type varchar(30) NOT NULL,
+       doc_path varchar(50) NOT NULL,
+       Status varchar(10) NOT NULL,
+       creator_stamp timestamp not null, 
+       creator_user int(10) not null,
+       FOREIGN KEY (Candidate_id) REFERENCES Fellowship_Candidate(Id)
+       ); 
+7. create table Company(
+       id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+       name varchar(30) NOT NULL,
+	  address varchar(150) DEFAULT NULL,
+	  location varchar(50) DEFAULT NULL,
+	  status varchar(10),
+	  creator_stamp datetime DEFAULT NULL,
+	  creator_user int(11) DEFAULT NULL
+	); 
+8. create table Tech_Stack(
+       id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+       tech_name varchar(30) NOT NULL,
+	  image_path varchar(100),
+	  framework varchar(50) NOT NULL,
+	  cur_status varchar(10) NOT NULL,
+	  creator_stamp datetime DEFAULT NULL,
+	  creator_user int(11) DEFAULT NULL
+	); 
+9. create table Tech_Type(
+       id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+       type_name varchar(30) NOT NULL,
+	  cur_status varchar(10) NOT NULL,
+	  creator_stamp datetime DEFAULT NULL,
+	  creator_user int(11) DEFAULT NULL
+	);   
+10. create table Maker_Program(
+       id int(11) NOT NULL PRIMARY KEY,
+       Program_name varchar(20) NOT NULL,
+       Program_type varchar(30) NOT NULL,
+       Program_link varchar(100) NOT NULL,
+	   tech_stack_id int(11) NOT NULL,
+	   tech_type_id int(11) NOT NULL,
+       Is_Program_Approved varchar(10),
+       Description varchar(150),
+       Status varchar(20),
+       creator_stamp timestamp not null, 
+       creator_user int(10) not null,
+       FOREIGN KEY (tech_stack_id) REFERENCES Tech_Stack(id),
+       FOREIGN KEY(tech_type_id) REFERENCES Tech_Type(id)
+       ); 
+11. create table Lab(
+	id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        Name varchar(20) NOT NULL,
+        Location varchar(20) not null,
+	Address varchar(50) not null,
+        Status varchar(20),
+       creator_stamp timestamp not null, 
+       creator_user int(10) not null
+       );
+12. create table Mentor_Ideation_Map(
+	id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        Parent_mentor_id int(11) NOT NULL,
+        mentor_id int(11) NOT NULL,
+        Status varchar(20),
+        creator_stamp timestamp not null, 
+        creator_user int(10) not null,
+        FOREIGN KEY (Parent_mentor_id) REFERENCES Mentor(id),
+         FOREIGN KEY (mentor_id) REFERENCES Mentor(id)
+       );
+13. create table Mentor_Tech_Stack(
+	id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        mentor_id int(11) NOT NULL,
+        tech_stack_id int(11) NOT NULL,
+        Status varchar(20),
+        creator_stamp datetime not null, 
+        creator_user int(10) not null,
+        FOREIGN KEY (mentor_id) REFERENCES Mentor(id),
+         FOREIGN KEY (tech_stack_id) REFERENCES Tech_Stack(id)
+       );  
+14. create table Lab_Threshold(
+	id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        lab_id int(11) NOT NULL,
+        lab_capacity int(10) NOT NULL,
+        lead_threshold int(5),
+        ideation_engg_threshold int(5),
+        buddy_engg_threshold int(5),
+        Status varchar(20),
+        creator_stamp datetime not null, 
+        creator_user int(10) not null,
+        FOREIGN KEY (lab_id) REFERENCES Lab(id)
+       );
+15. create table Company_Requirement(
+	id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        company_id int(11) NOT NULL,
+        requested_month varchar(10) NOT NULL,
+        city varchar(10),
+        Is_doc_verification varchar(10),
+        Requirement_doc_path varchar(100) not null,
+        no_of_engg int(5) not null,
+        tech_stack_id int(5) not null,
+        tech_type_id int(5) not null,
+        maker_program_id int(5) not null,
+        lead_id int(5) not null,
+        ideation_engg_id int(5) not null,
+        buddy_engg_id int(5) not null,
+        special_remark varchar(50),
+        Status varchar(20),
+        creator_stamp datetime not null, 
+        creator_user int(10) not null,
+        FOREIGN KEY ( tech_stack_id) REFERENCES Tech_Stack(id),
+        FOREIGN KEY ( company_id) REFERENCES Company(id),
+        FOREIGN KEY ( tech_type_id) REFERENCES Tech_Type(id),
+        FOREIGN KEY ( maker_program_id) REFERENCES Maker_Program(id),
+         FOREIGN KEY (lead_id) REFERENCES Mentor(id),
+         FOREIGN KEY (ideation_engg_id) REFERENCES Mentor_Ideation_Map(id),
+         foreign key(buddy_engg_id) references Mentor(id);
+       );  
+16. create table Candidate_Stack_Assignment(
+	id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        requirement_id int(11) NOT NULL,
+        candidate_id int(11) NOT NULL,
+        assign_date datetime,
+        complete_date datetime,
+        Status varchar(20),
+        creator_stamp datetime not null, 
+        creator_user int(10) not null,
+        FOREIGN KEY (requirement_id) REFERENCES Company_Requirement(id),
+         FOREIGN KEY (candidate_id) REFERENCES Fellowship_Candidate(id)
+       );     
+
+
